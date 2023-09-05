@@ -45,7 +45,7 @@ export default function Home({ products }: HomePorps) {
               <Image src={product.imageUrl} width={520} height={480} alt="" />
               <footer>
                 <strong>{product.name}</strong>
-                <span>R$ {product.price / 100}</span>
+                <span>{product.price}</span>
               </footer>
             </Product>
           );
