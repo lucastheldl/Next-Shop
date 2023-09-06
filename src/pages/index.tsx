@@ -12,6 +12,7 @@ import camiseta3 from "../assets/camisetas/3.png";
 
 import "keen-slider/keen-slider.min.css";
 import Stripe from "stripe";
+import Link from "next/link";
 
 interface HomePorps {
   products: {
@@ -41,13 +42,15 @@ export default function Home({ products }: HomePorps) {
       <HomeContainer ref={sliderRef} className="Ken-slider">
         {products.map((product, i) => {
           return (
-            <Product className="keen-slider__slide" key={i}>
-              <Image src={product.imageUrl} width={520} height={480} alt="" />
-              <footer>
-                <strong>{product.name}</strong>
-                <span>{product.price}</span>
-              </footer>
-            </Product>
+            <Link href={`/product/${product.id}`} key={i}>
+              <Product className="keen-slider__slide">
+                <Image src={product.imageUrl} width={520} height={480} alt="" />
+                <footer>
+                  <strong>{product.name}</strong>
+                  <span>{product.price}</span>
+                </footer>
+              </Product>
+            </Link>
           );
         })}
       </HomeContainer>
