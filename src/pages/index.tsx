@@ -42,7 +42,7 @@ export default function Home({ products }: HomePorps) {
       <HomeContainer ref={sliderRef} className="Ken-slider">
         {products.map((product, i) => {
           return (
-            <Link href={`/product/${product.id}`} key={i}>
+            <Link legacyBehavior href={`/product/${product.id}`} key={i}>
               <Product className="keen-slider__slide">
                 <Image src={product.imageUrl} width={520} height={480} alt="" />
                 <footer>
