@@ -2,6 +2,7 @@ import { styled } from "..";
 
 export const HomeContainer = styled("main", {
   display: "flex",
+  position: "relative",
   width: "100%",
   marginLeft: "auto",
   maxWidth: "calc(100vw - (100vw - 1180px)/2)",
