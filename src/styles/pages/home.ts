@@ -6,11 +6,11 @@ export const HomeContainer = styled("main", {
   width: "100%",
   marginLeft: "auto",
   maxWidth: "calc(100vw - (100vw - 1180px)/2)",
-  minHeight: "656px",
+  minHeight: "465px",
   overflow: "hidden",
 });
 export const Product = styled("a", {
-  background: "linear-gradient(180deg,#1ea483 0%,#7465d4 100%)",
+  background: "linear-gradient(180deg,#1ea483 0%,#5A31F4 100%)",
   borderRadius: 8,
   // padding: "0.25rem",
   cursor: "pointer",

@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <Container>
       <Header>
-        <Image src={logo} alt=""></Image>
+        <Image src={logo} alt="" width={150}></Image>
         <button onClick={handleOpenShopCart}>
           <ShoppingCart size={38} />
         </button>
