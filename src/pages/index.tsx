@@ -1,4 +1,4 @@
-import { HomeContainer, Product } from "@/styles/pages/home";
+import { ArrowButtons, HomeContainer, Product } from "@/styles/pages/home";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -9,6 +9,8 @@ import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import Stripe from "stripe";
 import Link from "next/link";
+import { useState } from "react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 interface HomePorps {
   products: {
@@ -20,10 +22,19 @@ interface HomePorps {
 }
 
 export default function Home({ products }: HomePorps) {
-  const [sliderRef] = useKeenSlider({
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [loaded, setLoaded] = useState(false);
+  const [sliderRef, instanceRef] = useKeenSlider({
     slides: {
       perView: 2.6,
       spacing: 48,
+    },
+    initial: 0,
+    slideChanged(slider) {
+      setCurrentSlide(slider.track.details.rel);
+    },
+    created() {
+      setLoaded(true);
     },
   });
   return (
@@ -54,6 +65,30 @@ export default function Home({ products }: HomePorps) {
             </Link>
           );
         })}
+        {loaded && instanceRef.current && (
+          <ArrowButtons>
+            <button
+              onClick={(e: any) =>
+                e.stopPropagation() || instanceRef.current?.prev()
+              }
+              disabled={currentSlide === 0}
+            >
+              <ArrowLeft size={52} />
+            </button>
+
+            <button
+              onClick={(e: any) =>
+                e.stopPropagation() || instanceRef.current?.next()
+              }
+              disabled={
+                currentSlide ===
+                instanceRef.current.track.details.slides.length - 1
+              }
+            >
+              <ArrowRight size={52} />
+            </button>
+          </ArrowButtons>
+        )}
       </HomeContainer>
     </>
   );

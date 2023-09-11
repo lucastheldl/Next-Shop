@@ -60,3 +60,29 @@ export const Product = styled("a", {
     },
   },
 });
+
+export const ArrowButtons = styled("div", {
+  display: "flex",
+  justifyContent: "space-between",
+  width: "100%",
+  height: "100%",
+  position: "absolute",
+  right: 0,
+
+  button: {
+    border: "none",
+    background: "transparent",
+
+    "&:hover": {
+      cursor: "pointer",
+    },
+    "&:disabled": {
+      opacity: 0.2,
+      cursor: "not-allowed",
+    },
+  },
+
+  svg: {
+    color: "$white",
+  },
+});
