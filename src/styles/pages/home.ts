@@ -87,7 +87,7 @@ export const ArrowRightButton = styled("div", {
   position: "absolute",
   right: 0,
   top: "50%",
-
+  //width
   button: {
     border: "none",
     background: "transparent",
