@@ -70,6 +70,7 @@ export default function Home({ products }: HomePorps) {
             </Link>
           );
         })}
+
         {loaded && instanceRef.current && (
           <>
             <ArrowLeftButton>
