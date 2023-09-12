@@ -2,9 +2,17 @@ import { globalStyles } from "@/styles/global";
 import type { AppProps } from "next/app";
 import Image from "next/image";
 import logo from "../assets/logo.svg";
-import { Container, Header } from "@/styles/pages/app";
-import { ShoppingCart } from "lucide-react";
-import { ShopCart } from "@/styles/pages/app";
+import {
+  CartItems,
+  CartResume,
+  CartValueInfo,
+  Container,
+  Header,
+  OpenShopCartButton,
+  ShopCart,
+  ShopCartContainer,
+} from "@/styles/pages/app";
+import { ShoppingCart, X } from "lucide-react";
 import { useState } from "react";
 
 globalStyles();
@@ -18,17 +26,44 @@ export default function App({ Component, pageProps }: AppProps) {
     <Container>
       <Header>
         <Image src={logo} alt="" width={150}></Image>
-        <button onClick={handleOpenShopCart}>
+        <OpenShopCartButton onClick={handleOpenShopCart}>
           <ShoppingCart size={38} />
-        </button>
-        <ShopCart
+        </OpenShopCartButton>
+        <ShopCartContainer
           id="shopCart"
           css={
             isCartOpen
               ? { transform: "translateX(0)", opacity: 100 }
               : { transform: "translateX(100%)", opacity: 0 }
           }
-        ></ShopCart>
+        >
+          <ShopCart>
+            <CartItems>
+              <div>
+                <button>
+                  <X />
+                </button>
+              </div>
+
+              <strong>Sacola de compras</strong>
+
+              <div></div>
+            </CartItems>
+            <CartResume>
+              <CartValueInfo>
+                <div>
+                  <span>Quantidade</span>
+                  <strong>Valor total</strong>
+                </div>
+                <div>
+                  <span>{"3"} itens</span>
+                  <strong>R$ 200,00</strong>
+                </div>
+              </CartValueInfo>
+              <button>Finalizar compra</button>
+            </CartResume>
+          </ShopCart>
+        </ShopCartContainer>
       </Header>
       <Component {...pageProps} />
     </Container>
