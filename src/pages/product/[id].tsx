@@ -1,3 +1,4 @@
+import { CartContext } from "@/context/shopcart-context";
 import { stripe } from "@/lib/stripe";
 import {
   DetailsContainer,
@@ -9,7 +10,7 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Stripe from "stripe";
 
 interface ProductProps {
@@ -18,12 +19,14 @@ interface ProductProps {
     name: string;
     imageUrl: string;
     price: string;
+    priceInNumber: number;
     description: string;
     defaultPriceId: string;
   };
 }
 
 export default function Product({ product }: ProductProps) {
+  const { addProdutsInCart } = useContext(CartContext);
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
     useState(false);
   const { isFallback } = useRouter();
@@ -66,11 +69,24 @@ export default function Product({ product }: ProductProps) {
 
           <p>{product.description}</p>
           <button
+            onClick={() =>
+              addProdutsInCart({
+                id: product.id,
+                name: product.name,
+                imageUrl: product.imageUrl,
+                price: product.priceInNumber,
+              })
+            }
+            //disabled={isCreatingCheckoutSession}
+          >
+            Adicionar ao carrinho
+          </button>
+          {/* <button
             onClick={handleBuyProduct}
             disabled={isCreatingCheckoutSession}
           >
             Comprar agora
-          </button>
+          </button> */}
         </DetailsContainer>
       </ProductContainer>
     </>
@@ -103,6 +119,7 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
           style: "currency",
           currency: "BRL",
         }).format(price.unit_amount! / 100),
+        priceInNumber: price.unit_amount! / 100,
         description: product.description,
         defaultPriceId: price.id,
       },

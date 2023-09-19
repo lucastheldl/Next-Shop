@@ -4,14 +4,15 @@ import { useContext } from "react";
 export function useCartCostResume() {
   const { products } = useContext(CartContext);
 
-  const resume = products
+  type ResumeType = {
+    total: number;
+  };
+
+  const resume: ResumeType = products
     ? products.reduce(
         (acc, product) => {
-          if (products.length != 0) {
-            acc.total += product.price;
-          } else {
-            acc.total = 0;
-          }
+          acc.total += product.price;
+
           return acc;
         },
         { total: 0 }

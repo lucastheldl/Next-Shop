@@ -21,6 +21,7 @@ export const CartContext = createContext({} as CartContextType);
 
 export function CartContextProvider({ children }: CartContextProviderType) {
   const [products, setProducts] = useState<Product[]>([]);
+
   function addProdutsInCart(product: Product) {
     setProducts((prev) => [...prev, product]);
   }
