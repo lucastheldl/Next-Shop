@@ -4,12 +4,13 @@ interface Product {
   id: string;
   name: string;
   imageUrl: string;
-  price: string;
+  price: number;
 }
 
 type CartContextType = {
   products: Product[];
-  updateProdutsInCart: (product: Product) => void;
+  addProdutsInCart: (product: Product) => void;
+  removeProdutsInCart: (id: string) => void;
 };
 
 type CartContextProviderType = {
@@ -20,12 +21,17 @@ export const CartContext = createContext({} as CartContextType);
 
 export function CartContextProvider({ children }: CartContextProviderType) {
   const [products, setProducts] = useState<Product[]>([]);
-  function updateProdutsInCart(product: Product) {
+  function addProdutsInCart(product: Product) {
     setProducts((prev) => [...prev, product]);
+  }
+  function removeProdutsInCart(id: string) {
+    setProducts(products.filter((prod) => prod.id !== id));
   }
 
   return (
-    <CartContext.Provider value={{ products, updateProdutsInCart }}>
+    <CartContext.Provider
+      value={{ products, addProdutsInCart, removeProdutsInCart }}
+    >
       {children}
     </CartContext.Provider>
   );
