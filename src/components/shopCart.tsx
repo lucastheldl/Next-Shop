@@ -6,9 +6,11 @@ import {
   CartResume,
   CartValueInfo,
   ShopCart,
-} from "@/styles/pages/app";
+  ItemsCardContainer,
+} from "@/styles/components/shopCart";
 import { X } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
+import { ShopCartItemCard } from "./shopCartItemCard";
 
 interface ShopCartComponentProps {
   isCartOpen: boolean;
@@ -48,7 +50,11 @@ export function ShopCartComponent({
 
           <strong>Sacola de compras</strong>
 
-          <div></div>
+          <ItemsCardContainer>
+            {products.map((product) => {
+              return <ShopCartItemCard key={product.id} product={product} />;
+            })}
+          </ItemsCardContainer>
         </CartItems>
         <CartResume>
           <CartValueInfo>
@@ -58,7 +64,7 @@ export function ShopCartComponent({
             </div>
             <div>
               <span>{products ? products.length : 0} itens</span>
-              <strong>R$ {total}</strong>
+              <strong>R$ {total.toFixed(2)}</strong>
             </div>
           </CartValueInfo>
           <button>Finalizar compra</button>
