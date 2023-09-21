@@ -11,6 +11,7 @@ import {
 import { X } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { ShopCartItemCard } from "./shopCartItemCard";
+import axios from "axios";
 
 interface ShopCartComponentProps {
   isCartOpen: boolean;
@@ -24,11 +25,36 @@ export function ShopCartComponent({
   const [total, setTotal] = useState(0);
   const resume = useCartCostResume();
   const { products } = useContext(CartContext);
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
+    useState(false);
+
+  async function handleBuyProduct() {
+    try {
+      setIsCreatingCheckoutSession(true);
+      const priceIds = products.map((prod) => {
+        return { price: prod.defaultPriceId, quantity: 1 };
+      });
+
+      const response = await axios.post(
+        "/api/checkout",
+
+        //priceId: product.defaultPriceId,
+        { priceId: priceIds }
+      );
+
+      const { checkoutUrl } = response.data;
+
+      //usar isso para redirecionar para uma rota esterna, se fosse uma interna usar o useRouter push
+      window.location.href = checkoutUrl;
+    } catch (err) {
+      alert("Falha na compra");
+      setIsCreatingCheckoutSession(false);
+      console.error(err);
+    }
+  }
 
   useEffect(() => {
     setTotal(resume.total);
-    console.log(resume.total);
-    console.log(products);
   }, [products, resume.total]);
 
   return (
@@ -51,8 +77,8 @@ export function ShopCartComponent({
           <strong>Sacola de compras</strong>
 
           <ItemsCardContainer>
-            {products.map((product) => {
-              return <ShopCartItemCard key={product.id} product={product} />;
+            {products.map((product, i) => {
+              return <ShopCartItemCard key={i} product={product} />;
             })}
           </ItemsCardContainer>
         </CartItems>
@@ -67,7 +93,7 @@ export function ShopCartComponent({
               <strong>R$ {total.toFixed(2)}</strong>
             </div>
           </CartValueInfo>
-          <button>Finalizar compra</button>
+          <button onClick={handleBuyProduct}>Finalizar compra</button>
         </CartResume>
       </ShopCart>
     </ShopCartContainer>

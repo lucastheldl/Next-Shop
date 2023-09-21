@@ -26,28 +26,9 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-  const { addProdutsInCart } = useContext(CartContext);
-  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
-    useState(false);
+  const { addProdutsInCart, products } = useContext(CartContext);
+
   const { isFallback } = useRouter();
-
-  async function handleBuyProduct() {
-    try {
-      setIsCreatingCheckoutSession(true);
-      const response = await axios.post("/api/checkout", {
-        priceId: product.defaultPriceId,
-      });
-
-      const { checkoutUrl } = response.data;
-
-      //usar isso para redirecionar para uma rota esterna, se fosse uma interna usar o useRouter push
-      window.location.href = checkoutUrl;
-    } catch (err) {
-      alert("Falha na compra");
-      setIsCreatingCheckoutSession(false);
-      console.error(err);
-    }
-  }
 
   if (isFallback) {
     return <p>Loading...</p>;
@@ -75,6 +56,7 @@ export default function Product({ product }: ProductProps) {
                 name: product.name,
                 imageUrl: product.imageUrl,
                 price: product.priceInNumber,
+                defaultPriceId: product.defaultPriceId,
               })
             }
             //disabled={isCreatingCheckoutSession}
