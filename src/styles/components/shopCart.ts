@@ -26,6 +26,10 @@ export const ItemsCardContainer = styled("div", {
   display: "flex",
   flexDirection: "column",
   gap: "1rem",
+
+  maxHeight: "500px",
+  overflowX: "hidden",
+  overflowY: "auto",
 });
 
 export const CartItems = styled("div", {
